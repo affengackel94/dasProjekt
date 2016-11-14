@@ -35,3 +35,9 @@ services:
         environment:
             - SPARK_OPTS="--driver-memory=5g --executor-memory=5g"
             - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
+#    web:
+#        build: ./Meteor/industrie_40_restart/project-build/bundle
+#        links:
+#            - mongodb
+#        ports:
+#            - "3000:3000"
