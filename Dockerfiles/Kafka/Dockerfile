@@ -4,8 +4,11 @@ FROM ubuntu:16.04
 RUN apt-get update
 RUN apt-get install -y openjdk-8-jre
 
+#RUN apt-get install dos2unix
+
 # copy entrypoint
 COPY entrypoint.sh /
+#RUN dos2unix /entrypoint.sh
 RUN chmod u+x /entrypoint.sh
 
 # install kafka

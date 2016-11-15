@@ -25,19 +25,19 @@ services:
         build: ./MongoDB
         ports:
             - "27017:27017"
-    spark:
-        build: ./Spark
-        links:
-            - kafka
-        ports:
-            - "8080:8080"
-            - "7077:7077"
-        environment:
-            - SPARK_OPTS="--driver-memory=5g --executor-memory=5g"
-            - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
-#    web:
-#        build: ./Meteor/industrie_40_restart/project-build/bundle
+#    meteor:
+#        build: ./Meteor
 #        links:
 #            - mongodb
 #        ports:
 #            - "3000:3000"
+#    spark:
+#        build: ./Spark
+#        links:
+#            - kafka
+#        ports:
+#            - "8080:8080"
+#            - "7077:7077"
+#        environment:
+#            - SPARK_OPTS="--driver-memory=5g --executor-memory=5g"
+#            - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
