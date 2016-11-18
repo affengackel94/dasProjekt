@@ -4,6 +4,7 @@ echo "advertised.listeners=PLAINTEXT://kafka:9092" >> /kafka/config/server.prope
 
 # start kafka
 /kafka/bin/zookeeper-server-start.sh /kafka/config/zookeeper.properties &
+SLEEP 2
 /kafka/bin/kafka-server-start.sh /kafka/config/server.properties &
 
 # run endless loop to keep alive

@@ -8,7 +8,7 @@ import ngTable from 'ng-table';
 import {Kafkadata} from '../../api/kafkadata';
 import {Amqpdata} from '../../api/amqpdata';
 //import {TableComponent} from './component/table.component';
-//import '../../api/serverMethods';
+import '../../api/serverMethods';
 
 const name = 'view1';
 
@@ -22,6 +22,22 @@ class View1 {
         this.average="average";
         this.aktuell="aktuell";
         this.showCharttype='ds';
+/*Meteor.methods({
+
+            aweek: () => {
+                console.log("aweek erreicht");
+                if (debug)
+                    console.log("Querying weekly appointments for "+this.selectedWeek.format("Do MMMM"));
+                var weekApts = Kafkadata.find(
+                    {start: {$gte: new Date(this.getReactively('this.selectedWeek').clone().day(1)),
+                        $lt: new Date(this.getReactively('this.selectedWeek').clone().endOf('week'))},
+                        elderid: Meteor.userId()
+                    }).fetch();
+                return utils.services.getAWeek(weekApts,utils.data.elderTimeFormat);
+            }
+        });*/
+
+
 
         this.cardRow = [
             {name: 'Drilling Speed', color: 'white', value: 0,status:'aktuell',type:'ds'},
@@ -125,9 +141,16 @@ class View1 {
         this.helpers({
 
             getCustomerInfos(){
-                var tempvar=Amqpdata.find().fetch();
+      /*          var tempvar=Amqpdata.find().fetch();
                 var tempvar2= _.pluck(tempvar,"customerNumber")
-                var tempvar3= _.uniq(tempvar2, false);
+                var tempvar3= _.uniq(tempvar2, false);*/
+              var tempvar1= Amqpdata.find({},{fields:{customerNumber:1, timeStamp:1,}}).fetch();
+                var tempvar2= _.countBy(tempvar1,'customerNumber');
+                var tempvar3= _.unique(tempvar1,'customerNumber');
+                /*var tempvar1= _.pluck(Kafkadata.find({$and:[
+                    {orderNumber: this.getReactively('choosenOrderNumber')},
+                    {itemName:'DRILLING_SPEED'}]}).fetch(),'intValue');
+                var tempvar2= _.pluck(Kafkadata.find({$and:[*/
            /*     for (var i=0; i<this.customerInfos.length;i++){
                    kundennummer=this.customerInfos[i].customerNumber;
                     for(var x=0;i<this.customerInfos.length;i++){
@@ -215,36 +238,21 @@ class View1 {
             },
             getCurrentOrder(){
               return  Kafkadata.findOne({},{sort:{timeStamp:-1}})
+            },
+            getTestData(){
+                Meteor.call('allTestData',function(error, result){
+                    if(error){
+                        alert('Error');
+                    }else{
+                       return result;
+                    }
+                });
+
             }
 
 
         });
 
-       var data = [
-            { name: "Moroni", age: 50 },
-            { name: "Tiancum", age: 43 },
-            { name: "Jacob", age: 27 },
-            { name: "Nephi", age: 29 },
-            { name: "Enos", age: 34 },
-            { name: "Tiancum", age: 43 },
-            { name: "Jacob", age: 27 },
-            { name: "Nephi", age: 29 },
-            { name: "Enos", age: 34 },
-            { name: "Tiancum", age: 43 },
-            { name: "Jacob", age: 27 },
-            { name: "Nephi", age: 29 },
-            { name: "Enos", age: 34 },
-            { name: "Tiancum", age: 43 },
-            { name: "Jacob", age: 27 },
-            { name: "Nephi", age: 29 },
-            { name: "Enos", age: 34 }
-        ];
-
-/*        this.tableParams = new NgTableParams({}, {
-            dataset: data
-        });*/
-
-        //$interval(() => this.update(), 1000);
     }
 
     update() {
@@ -291,6 +299,16 @@ class View1 {
         var test333=type;
         console.log(test333);
     }
+    testundso(){
+        Meteor.call('allTestData',function(error, result){
+            if(error){
+                alert('Error');
+            }else{
+                console.log(result);
+            }
+        });
+
+    }
 }
 
 //View1.$inject = ['NgTableParams'];
@@ -309,7 +327,12 @@ export default angular.module(name, [
     controller: View1
 })
 
-    .config(config);
+    .config(config)
+    .filter('roundup',function(){
+        return function (input) {
+            if (isNaN(input)) return input;
+            return Math.round(input * 10) / 10;
+    }})
 
 function config($stateProvider) {
     'ngInject';

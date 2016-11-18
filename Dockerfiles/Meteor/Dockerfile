@@ -5,23 +5,28 @@ RUN apt-get update
 RUN apt-get install -y curl
 RUN apt-get install language-pack-en -y
 RUN curl https://install.meteor.com/ | sh
-#RUN apt-get install dos2unix
+# RUN meteor add --unsafe-perm twbs:bootstrap
+RUN apt-get install dos2unix
 
+
+# App kopieren
 COPY /app /app
 
+# Entypointskript einfügen
 COPY entrypoint.sh /
-#RUN dos2unix /entrypoint.sh
-RUN chmod u+x /entrypoint.sh
+RUN dos2unix /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-EXPOSE 3000
+# WebUI Port & DB Port
+EXPOSE 80
 
 ENTRYPOINT /entrypoint.sh
-
 
 RUN useradd -ms /bin/bash meteoruser
 RUN chown -cR meteoruser /app
 USER meteoruser
 WORKDIR /app
-RUN meteor npm install --save highcharts
+RUN meteor npm install
+#RUN meteor update --patch
 RUN meteor reset
-ENV MONGO_URL mongodb://mongodb:27017/meteor
+ENV MONGO_URL mongodb://database:27017/meteor

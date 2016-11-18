@@ -3,7 +3,6 @@ FROM ubuntu:16.04
 # install java
 RUN apt-get update
 RUN apt-get install -y openjdk-8-jre
-
 #RUN apt-get install dos2unix
 
 # copy entrypoint

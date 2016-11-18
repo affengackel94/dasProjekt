@@ -23,14 +23,18 @@ services:
             - mongodb
     mongodb:
         build: ./MongoDB
+        container_name: database
         ports:
             - "27017:27017"
-#    meteor:
-#        build: ./Meteor
-#        links:
-#            - mongodb
-#        ports:
-#            - "3000:3000"
+    meteor:
+        build: ./Meteor
+        links:
+            - kafka
+            - mongodb
+        ports:
+            - "80:3000"
+        environment:
+            - ROOT_URL=http://127.0.0.1
 #    spark:
 #        build: ./Spark
 #        links:
