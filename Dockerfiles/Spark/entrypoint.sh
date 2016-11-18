@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 # start spark
 /spark/sbin/start-master.sh
@@ -15,7 +15,7 @@ sleep 10
 ./spark/bin/spark-submit \
   --class App \
   --master spark://spark:7077 \
-  /SparkConsumer.jar
+  jarFiles/SparkConsumer.jar
 
 # run endless loop to keep alive
 /usr/bin/tail -f /dev/null

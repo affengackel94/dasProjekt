@@ -11,8 +11,9 @@ RUN dos2unix /entrypoint.sh
 RUN chmod u+x /entrypoint.sh
 
 # copy spark jar on docker and set permissions
-#COPY SparkConsumer.jar /
-#RUN chmod u+x /SparkConsumer.jar
+RUN mkdir -p /jarFiles
+COPY SparkConsumer.jar /jarFiles
+RUN chmod u+x /jarFiles/SparkConsumer.jar
 
 # install spark
 ADD http://www-eu.apache.org/dist/spark/spark-2.0.1/spark-2.0.1-bin-hadoop2.7.tgz /spark.tgz
