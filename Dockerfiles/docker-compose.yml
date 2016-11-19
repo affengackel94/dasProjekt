@@ -32,16 +32,14 @@ services:
             - kafka
             - mongodb
         ports:
-            - "3000:80"
-#        environment:
-#            - ROOT_URL=http://127.0.0.1
-#    spark:
-#        build: ./Spark
-#        links:
-#            - kafka
-#        ports:
-#            - "8080:8080"
-#            - "7077:7077"
-#        environment:
-#            - SPARK_OPTS="--driver-memory=5g --executor-memory=5g"
-#            - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
+            - "80:3000"
+    spark:
+        build: ./Spark
+        links:
+            - kafka
+        ports:
+            - "8080:8080"
+            - "7077:7077"
+        environment:
+            - SPARK_OPTS="--driver-memory=5g --executor-memory=5g"
+            - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G

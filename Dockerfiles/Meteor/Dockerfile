@@ -17,16 +17,22 @@ COPY entrypoint.sh /
 RUN dos2unix /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# WebUI Port & DB Port
-EXPOSE 80
 
-ENTRYPOINT /entrypoint.sh
 
 RUN useradd -ms /bin/bash meteoruser
 RUN chown -cR meteoruser /app
 USER meteoruser
 WORKDIR /app
 RUN meteor npm install
-#RUN meteor update --patch
+RUN meteor update --patch
 RUN meteor reset
+ENV PORT 80
 ENV MONGO_URL mongodb://database:27017/meteor
+ENV ROOT_URL http://127.0.0.1
+
+# WebUI Port & DB Port
+EXPOSE 80
+
+ENTRYPOINT /entrypoint.sh
+
+
