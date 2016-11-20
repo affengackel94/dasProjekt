@@ -4,12 +4,22 @@ import data.Constants;
 
 /**
  * Created by nicob on 02.11.2016.
- * main class; starts consumer threads
+ * main class; starts all consumer threads
  */
 
-public class Consumer {
+@SuppressWarnings("ConstantConditions")
+public class AppConsumer {
 
-    private static String CURRENT_ORDER_NUMBER;
+    //global variable to store order number
+    private static String currentOrderNumber;
+
+    public static String getCurrentOrderNumber() {
+        return currentOrderNumber;
+    }
+
+    public static void setCurrentOrderNumber(String curOrderNumber) {
+        currentOrderNumber = curOrderNumber;
+    }
 
     public static void main(String[] args) {
         Thread amqpThread = new Thread(ActiveMQConsumer.getActiveMqConsumer(Constants.AMQP_TOPIC, Constants.AMQP_PORT));
@@ -21,13 +31,5 @@ public class Consumer {
 
         Thread directoryThread = new Thread(DirectoryListener.getDirectoryListener(Constants.FILE_PATH));
         directoryThread.start();
-    }
-
-    public static String getCURRENT_ORDER_NUMBER() {
-        return CURRENT_ORDER_NUMBER;
-    }
-
-    public static void setCURRENT_ORDER_NUMBER(String curOrderNumber) {
-        CURRENT_ORDER_NUMBER = curOrderNumber;
     }
 }

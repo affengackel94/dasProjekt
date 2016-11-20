@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * message class for production line messages
  */
 
+@SuppressWarnings("unused")
 public class KafkaMessage extends Message {
     @JsonProperty("value")
     private Object value;
@@ -33,13 +34,19 @@ public class KafkaMessage extends Message {
         String stringValue = value.toString(); //get value as String
         if (stringValue.equalsIgnoreCase("true") || stringValue.equalsIgnoreCase("false")) { //set boolean value
             booleanValue = Boolean.valueOf(stringValue);
-        }
-        else if (stringValue.contains(".") || stringValue.contains(",")){ //set double value
+        } else if (stringValue.contains(".") || stringValue.contains(",")){ //set double value
             doubleValue = Double.valueOf(stringValue);
-        }
-        else { //set integer value
+        } else { //set integer value
             intValue = Integer.valueOf(stringValue);
         }
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public boolean isBooleanValue() {
+        return booleanValue;
     }
 
     @Override

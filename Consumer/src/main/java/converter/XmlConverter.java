@@ -17,8 +17,14 @@ import java.io.StringReader;
  */
 
 public class XmlConverter {
+
+    //instance for the singleton pattern
     private static XmlConverter instance = new XmlConverter();
 
+    /**
+     *
+     * @return the instance of the xml converter
+     */
     public static XmlConverter getInstance() {
         return instance;
     }
@@ -26,10 +32,7 @@ public class XmlConverter {
     private XmlConverter() {
     }
 
-    /**
-     * convert a xml string to a document
-     */
-    public static Document loadXmlFromString(String xml) throws Exception {
+    private Document loadXmlFromString(String xml) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         InputSource inputSource = new InputSource(new StringReader(xml));
@@ -37,7 +40,9 @@ public class XmlConverter {
     }
 
     /**
-     * creates a activemq message from a xml-string
+     *
+     * @param xml: xml that needs to be parsed
+     * @return the activemq message
      */
     public ActiveMQMessage getActiveMqMessage(String xml){
         ActiveMQMessage activeMQMessage = new ActiveMQMessage();
