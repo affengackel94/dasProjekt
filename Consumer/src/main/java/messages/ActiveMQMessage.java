@@ -14,11 +14,8 @@ public class ActiveMQMessage extends Message {
     private int customerNumber;
     @JsonProperty("materialNumber")
     private int materialNumber;
-    @JsonProperty("orderNumber")
-    private String orderNumber;
     @JsonProperty("timeStamp")
     private Date timeStamp;
-
 
     public void setCustomerNumber(int customerNumber) {
         this.customerNumber = customerNumber;
@@ -28,14 +25,6 @@ public class ActiveMQMessage extends Message {
         this.materialNumber = materialNumber;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
-
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -43,6 +32,6 @@ public class ActiveMQMessage extends Message {
     @Override
     public String toString() {
         return "AMQP-Message: " + "customerNumber: " + customerNumber + "; materialNumber: " + materialNumber +
-               "; orderNumber: " + orderNumber + "; timeStamp: " + timeStamp;
+               "; orderNumber: " + getOrderNumber() + "; timeStamp: " + timeStamp;
     }
 }

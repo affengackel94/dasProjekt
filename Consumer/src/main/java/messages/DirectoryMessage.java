@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * message class for erp data from file output
  */
 
+@SuppressWarnings("unused")
 public class DirectoryMessage extends Message {
     @JsonProperty("em1")
     private double em1;

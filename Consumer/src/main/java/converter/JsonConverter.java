@@ -14,10 +14,17 @@ import java.io.IOException;
  */
 
 public class JsonConverter {
+
+    //instance for the singleton pattern
     private static JsonConverter instance = new JsonConverter();
 
+    //object mapper for the conversion
     private ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     *
+     * @return the instance of the json converter
+     */
     public static JsonConverter getInstance() {
         return instance;
     }
@@ -25,6 +32,11 @@ public class JsonConverter {
     private JsonConverter() {
     }
 
+    /**
+     *
+     * @param jsonString: json string to convert
+     * @return the converted kafka message
+     */
     public KafkaMessage getKafkaMessage(String jsonString){
         try {
             return mapper.readValue(jsonString, KafkaMessage.class); //convert json-String to kafka message
@@ -34,6 +46,11 @@ public class JsonConverter {
         return null;
     }
 
+    /**
+     *
+     * @param jsonString: json string to convert
+     * @return the converted directory message
+     */
     public DirectoryMessage getDirectoryMessage(String jsonString){
         try {
             return mapper.readValue(jsonString, DirectoryMessage.class); //convert json-String to directory message
@@ -43,6 +60,11 @@ public class JsonConverter {
         return null;
     }
 
+    /**
+     *
+     * @param message: message to convert
+     * @return json string
+     */
     public String toJsonString(Message message){
         try {
             return mapper.writeValueAsString(message); //convert message to json-String

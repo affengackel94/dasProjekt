@@ -11,11 +11,19 @@ import java.util.Properties;
  * write messages to kafka
  */
 
+@SuppressWarnings("ConstantConditions")
 public class KafkaProducer {
+
+    //instance for the singleton pattern
     private static KafkaProducer instance;
-    private String topicName = Constants.PRODUCER_KAFKA_TOPIC;
+
+    //producer needed to send message
     private Producer<String, String> producer;
 
+    /**
+     *
+     * @return return the instance of the kafka producer
+     */
     public static KafkaProducer getInstance() {
         if (instance == null) {
             instance = new KafkaProducer();
@@ -26,24 +34,23 @@ public class KafkaProducer {
     private KafkaProducer() {
         Properties properties = new Properties();
         putProperties(properties);
-        producer = new org.apache.kafka.clients.producer.KafkaProducer<String, String>(properties);
+        producer = new org.apache.kafka.clients.producer.KafkaProducer<>(properties);
     }
 
+    //put properties needed for the kafka consumer
     private void putProperties(Properties properties) {
-        String kafkaString = Constants.TESTING ? Constants.getServer() + ":" : "kafka:";
-        properties.put("bootstrap.servers", kafkaString + Constants.KAFKA_PRODUCER_PORT);
-//        properties.put("acks", "all");
-//        properties.put("retries", 0);
-//        properties.put("batch.size", 16384);
-//        properties.put("linger.ms", 1);
-//        properties.put("buffer.memory", 33554432);
-        properties.put("metadata.broker.list", Constants.getServer() + ":" + Constants.KAFKA_PRODUCER_PORT);
-        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        String kafkaString = (Constants.TESTING ? Constants.getServer() + ":" : "kafka:") + Constants.KAFKA_PRODUCER_PORT;
+        properties.put(Constants.BOOTSTRAP_SERVERS, kafkaString);
+        properties.put(Constants.PRODUCER_BROKER_LIST, kafkaString);
+        properties.put(Constants.KEY_SERIALIZE, Constants.PRODUCER_SERIALIZER);
+        properties.put(Constants.VALUE_SERIALIZE, Constants.PRODUCER_SERIALIZER);
     }
 
+    /**
+     *
+     * @param data: string to send
+     */
     public void sendMessage(String data) {
-        producer.send(new ProducerRecord<String, String>(topicName, data));
+        producer.send(new ProducerRecord<>(Constants.PRODUCER_KAFKA_TOPIC, data));
     }
-
 }
